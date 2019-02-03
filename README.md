@@ -1,30 +1,35 @@
-Role Name
-=========
+template
+========
 
-A brief description of the role goes here.
+A ansible role to do the necessary things for a template VM.
 
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should
-be mentioned here. For instance, if the role uses the EC2 module, it may be a
-good idea to mention in this section that the boto package is required.
+A template VM is usually created on our Proxmox-Cluster via [grml-debootstrap](https://github.com/grml/grml-debootstrap).
+
+The network must be configured and public key authentication for the user
+`root` must be deployed or the password authentication for root via ssh must be enabled.
+
+The hostname of the template VM needs to be `template-debian-stretch`.
+
+After that the template VM is cloned and Ansible should handle the configuration.
+
+To use this role you need a working DNS-Server where FQDN of the final server is configured.
 
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including
-any variables that are in defaults/main.yml, vars/main.yml, and any variables
-that can/should be set via parameters to the role. Any variables that are read
-from other roles and/or the global scope (ie. hostvars, group vars, etc.) should
-be mentioned here as well.
+`group_vars/all`:
+
+```yaml
+dns_server: fw.in.example.com
+```
 
 Dependencies
 ------------
 
-A list of other roles hosted on Galaxy should go here, plus any details in
-regards to parameters that may need to be set for other roles, or variables that
-are used from other roles.
+None. But the roles [bootstrap](https://github.com/robertdebock/ansible-role-bootstrap) and [user](https://github.com/jkirk/ansible-role-user/) are recommended before and [Oefenweb.hostname](https://github.com/Oefenweb/ansible-hostname.git) is recommended after running this role.
 
 Example Playbook
 ----------------
@@ -32,17 +37,33 @@ Example Playbook
 Including an example of how to use your role (for instance, with variables
 passed in as parameters) is always nice for users too:
 
-    - hosts: servers
-      roles:
-         - { role: ansible-role-template, x: 42 }
+`bootstrap-template.yml`:
+
+```yaml
+---
+# This playbook prepares the system to be managed by Ansible.
+#
+# Example:
+#
+#   ansible-playbook -u root bootstrap.yml
+
+- name: Prepare system to be managed by Ansible
+  hosts: all
+  become: false
+  gather_facts: false
+  roles:
+    - robertdebock.bootstrap
+    - { role: jkirk.user, users: [ 'jane_doe', 'john_doe' ], groupname: 'sysadmin', admin: True }
+    - jkirk.template
+    - Oefenweb.hostname
+```
 
 License
 -------
 
-BSD
+MIT
 
 Author Information
 ------------------
 
-An optional section for the role authors to include contact information, or a
-website (HTML is not allowed).
+Darshaka Pathirana - https://synpro.solutions

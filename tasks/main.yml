@@ -1,2 +1,34 @@
 ---
 # tasks file for ansible-role-template
+
+- name: Detect template VM
+  set_fact:
+    template_vm: true
+  when: ansible_hostname == "template-debian-stretch"
+- name: Check DNS entry for IP-Address
+  local_action: command dig {{ inventory_hostname }} @{{ dns_server }} +short
+  register: dig_result
+  changed_when: false
+  check_mode: false
+- name: Fail when no DNS entry is set
+  fail: msg="DNS entry was not set in the Sophos Firewall / DNS-Server"
+  when: dig_result.stdout == ""
+  check_mode: false
+- name: Regenerate ssh host keys
+  command: dpkg-reconfigure openssh-server
+  when: template_vm == true
+- name: Delete machine-id files
+  file:
+    state: absent
+    path: "{{ item }}"
+  with_items:
+    - "/etc/machine-id"
+    - "/var/lib/dbus/machine-id"
+  when: template_vm == true
+- name: Regenerate machine-id
+  command: systemd-machine-id-setup
+  when: template_vm == true
+- name: Update all packages to the latest version
+  apt:
+    upgrade: dist
+    update_cache: true
