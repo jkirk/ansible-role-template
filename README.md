@@ -29,7 +29,7 @@ dns_server: fw.in.example.com
 Dependencies
 ------------
 
-None. But the roles [bootstrap](https://github.com/robertdebock/ansible-role-bootstrap) and [user](https://github.com/jkirk/ansible-role-user/) are recommended before and [Oefenweb.hostname](https://github.com/Oefenweb/ansible-hostname.git) is recommended after running this role.
+None. But the roles [bootstrap](https://github.com/robertdebock/ansible-role-bootstrap) and [user](https://github.com/jkirk/ansible-role-user/) are recommended before running this role.
 
 Example Playbook
 ----------------
