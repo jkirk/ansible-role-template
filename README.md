@@ -13,7 +13,7 @@ The network must be configured and public key authentication for the user
 
 The hostname of the template VM needs to be `template-debian-stretch`.
 
-After that the template VM is cloned and Ansible should handle the configuration.
+After that the template VM is cloned Ansible will handle the configuration.
 
 To use this role you need a working DNS-Server where FQDN of the final server is configured.
 
@@ -41,13 +41,13 @@ passed in as parameters) is always nice for users too:
 
 ```yaml
 ---
-# This playbook prepares the system to be managed by Ansible.
+# This playbook prepares template VM to be managed by Ansible.
 #
 # Example:
 #
-#   ansible-playbook -u root bootstrap.yml
+#   ansible-playbook -u root bootstrap-template.yml
 
-- name: Prepare system to be managed by Ansible
+- name: Prepare template VM to be managed by Ansible
   hosts: all
   become: false
   gather_facts: false
