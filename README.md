@@ -20,9 +20,10 @@ To use this role you need a working DNS-Server where FQDN of the final server is
 Role Variables
 --------------
 
-`group_vars/all`:
+This variable can defined in the playbook:
 
 ```yaml
+# The DNS-Sever where we check if the FQDN is defined before provisioning the server.
 dns_server: fw.in.example.com
 ```
 
@@ -51,6 +52,8 @@ passed in as parameters) is always nice for users too:
   hosts: all
   become: false
   gather_facts: false
+  vars:
+    dns_server: fw.in.example.com
   roles:
     - robertdebock.bootstrap
     - { role: jkirk.user, users: [ 'jane_doe', 'john_doe' ], groupname: 'sysadmin', admin: True }
