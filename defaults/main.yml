@@ -1,2 +1,3 @@
 ---
 # defaults file for ansible-role-template
+template_vm: false
