@@ -13,7 +13,7 @@
   check_mode: false
 - name: Fail when no DNS entry is set
   fail: msg="DNS entry was not set in the Sophos Firewall / DNS-Server"
-  when: dig_result.stdout == ""
+  when: dig_result.stdout | lenght > 0
   check_mode: false
 - name: Regenerate ssh host keys
   command: dpkg-reconfigure openssh-server
