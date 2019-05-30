@@ -6,7 +6,8 @@
     template_vm: true
   when: ansible_hostname == "template-debian-stretch"
 - name: Check DNS entry for IP-Address
-  local_action: command dig {{ inventory_hostname }} @{{ dns_server }} +short
+  command: dig {{ inventory_hostname }} @{{ dns_server }} +short
+  delegate_to: localhost
   register: dig_result
   changed_when: false
   check_mode: false
@@ -16,7 +17,7 @@
   check_mode: false
 - name: Regenerate ssh host keys
   command: dpkg-reconfigure openssh-server
-  when: template_vm == true
+  when: template_vm
 - name: Delete machine-id files
   file:
     state: absent
@@ -24,10 +25,10 @@
   with_items:
     - "/etc/machine-id"
     - "/var/lib/dbus/machine-id"
-  when: template_vm == true
+  when: template_vm
 - name: Regenerate machine-id
   command: systemd-machine-id-setup
-  when: template_vm == true
+  when: template_vm
 - name: Update all packages to the latest version
   apt:
     upgrade: dist
