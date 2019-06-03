@@ -4,7 +4,7 @@
 - name: Detect template VM
   set_fact:
     template_vm: true
-  when: ansible_hostname == "template-debian-stretch"
+  when: ansible_hostname.find("template-debian-") != -1
 - name: Check DNS entry for IP-Address
   command: dig {{ inventory_hostname }} @{{ dns_server }} +short
   delegate_to: localhost

@@ -8,14 +8,12 @@ Requirements
 
 A template VM is usually created on our Proxmox-Cluster via [grml-debootstrap](https://github.com/grml/grml-debootstrap).
 
-The network must be configured and public key authentication for the user
-`root` must be deployed or the password authentication for root via ssh must be enabled.
+The template VM needs the following characteristics:
 
-The hostname of the template VM needs to be `template-debian-stretch`.
-
-After that the template VM is cloned Ansible will handle the configuration.
-
-To use this role you need a working DNS-Server where FQDN of the final server is configured.
+* The network must be configured
+* Public key authentication for the user `root` must be deployed or password authentication for `root` via ssh must be enabled
+* The hostname needs to contain `template-debian-`.
+* The FQDN needs to be resolvable
 
 Role Variables
 --------------
