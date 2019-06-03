@@ -5,31 +5,6 @@
   set_fact:
     template_vm: true
   when: ansible_hostname.find("template-debian-") != -1
-- name: Check DNS entry for IP-Address
-  command: dig {{ inventory_hostname }} @{{ template_dns_server }} +short
-  delegate_to: localhost
-  register: dig_result
-  changed_when: false
-  check_mode: false
-- name: Fail when no DNS entry is set
-  fail: msg="DNS entry was not set in the Sophos Firewall / DNS-Server"
-  when: dig_result.stdout | length > 0
-  check_mode: false
-- name: Regenerate ssh host keys
-  command: dpkg-reconfigure openssh-server
-  when: template_vm
-- name: Delete machine-id files
-  file:
-    state: absent
-    path: "{{ item }}"
-  with_items:
-    - "/etc/machine-id"
-    - "/var/lib/dbus/machine-id"
-  when: template_vm
-- name: Regenerate machine-id
-  command: systemd-machine-id-setup
-  when: template_vm
-- name: Update all packages to the latest version
-  apt:
-    upgrade: dist
-    update_cache: true
+
+- include_tasks: check-and-update.yml
+  when: template_vm|bool
