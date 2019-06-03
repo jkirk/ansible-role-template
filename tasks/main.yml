@@ -6,14 +6,14 @@
     template_vm: true
   when: ansible_hostname.find("template-debian-") != -1
 - name: Check DNS entry for IP-Address
-  command: dig {{ inventory_hostname }} @{{ dns_server }} +short
+  command: dig {{ inventory_hostname }} @{{ template_dns_server }} +short
   delegate_to: localhost
   register: dig_result
   changed_when: false
   check_mode: false
 - name: Fail when no DNS entry is set
   fail: msg="DNS entry was not set in the Sophos Firewall / DNS-Server"
-  when: dig_result.stdout | lenght > 0
+  when: dig_result.stdout | length > 0
   check_mode: false
 - name: Regenerate ssh host keys
   command: dpkg-reconfigure openssh-server

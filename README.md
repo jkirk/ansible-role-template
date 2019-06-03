@@ -21,8 +21,8 @@ Role Variables
 This variable can defined in the playbook:
 
 ```yaml
-# The DNS-Sever where we check if the FQDN is defined before provisioning the server.
-dns_server: fw.in.example.com
+# The DNS-Sever where we check if the FQDN is defined before provisioning the server (default to 'localhost')
+template_dns_server: 'fw.in.example.com'
 ```
 
 Dependencies

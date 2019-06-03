@@ -1,3 +1,6 @@
 ---
 # defaults file for ansible-role-template
 template_vm: false
+
+# The DNS-Sever where we check if the FQDN is defined before provisioning the server
+template_dns_server: 'localhost'
