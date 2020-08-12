@@ -10,7 +10,7 @@
 
 - name: Fail when no DNS entry is set
   fail: msg="DNS entry was not set in the Sophos Firewall / DNS-Server"
-  when: dig_result.stdout | length > 0
+  when: dig_result.stdout | length == 0
   check_mode: false
 
 - name: Regenerate ssh host keys
