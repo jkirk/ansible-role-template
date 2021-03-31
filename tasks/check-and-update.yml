@@ -13,6 +13,14 @@
   when: dig_result.stdout | length == 0
   check_mode: false
 
+- name: Delete ssh host keys
+  file:
+    path: "{{ item }}"
+    state: absent
+  with_fileglob:
+    - "/etc/ssh/ssh_host*"
+  when: template_vm|bool
+
 - name: Regenerate ssh host keys
   command: dpkg-reconfigure openssh-server
   when: template_vm|bool
