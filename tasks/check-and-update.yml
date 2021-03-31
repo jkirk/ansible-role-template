@@ -19,6 +19,7 @@
     state: absent
   with_fileglob:
     - "/etc/ssh/ssh_host*"
+  when: template_vm|bool
 
 - name: Regenerate ssh host keys
   command: dpkg-reconfigure openssh-server
