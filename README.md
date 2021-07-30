@@ -33,31 +33,7 @@ None. But the roles [bootstrap](https://github.com/robertdebock/ansible-role-boo
 Example Playbook
 ----------------
 
-Including an example of how to use your role (for instance, with variables
-passed in as parameters) is always nice for users too:
-
-`bootstrap-template.yml`:
-
-```yaml
----
-# This playbook prepares template VM to be managed by Ansible.
-#
-# Example:
-#
-#   ansible-playbook -u root bootstrap-template.yml
-
-- name: Prepare template VM to be managed by Ansible
-  hosts: all
-  become: false
-  gather_facts: false
-  vars:
-    dns_server: fw.in.example.com
-  roles:
-    - robertdebock.bootstrap
-    - { role: jkirk.user, users: [ 'jane_doe', 'john_doe' ], groupname: 'sysadmin', admin: True }
-    - jkirk.template
-    - Oefenweb.hostname
-```
+See: [bootstrap-template.yml](https://github.com/jkirk/ansible-site-template/blob/master/bootstrap-template.yml)
 
 License
 -------
