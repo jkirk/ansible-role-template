@@ -22,7 +22,7 @@
   when: template_vm|bool
 
 - name: Regenerate ssh host keys
-  command: dpkg-reconfigure openssh-server
+  command: dpkg-reconfigure openssh-server -f noninteractive
   when: template_vm|bool
 
 - name: Delete machine-id files
